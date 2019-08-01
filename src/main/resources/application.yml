@@ -1,0 +1,74 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.100.5:9001/eureka/
+  instance:
+    prefer-ip-address: true
+server:
+  port: 9011
+spring:
+  application:
+    name: KYCRegisterService
+  redis:
+    database: 0
+    # Redis服务器地址
+    host: 192.168.100.5
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password: 9Cpa7vy5nqup0A1s
+    # 连接池最大连接数（使用负值表示没有限制）
+    jedis:
+      pool:
+        max-active: 200
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        #        max-wait: -1
+        # 连接池中的最大空闲连接
+        max-idle: 10
+        # 连接池中的最小空闲连接
+        min-idle: 0
+    # 连接超时时间（毫秒）
+    timeout: 10000
+  rabbitmq:
+    host: 192.168.100.5
+    port: 5672
+    username: root
+    password: aFlwDfPQh6slYsuP
+
+
+
+  datasource:
+    url: jdbc:mysql://192.168.100.5:3306/kyc?&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: EYcaDDDoLZ2waFCv
+    driver-class-name: com.mysql.jdbc.Driver
+
+
+
+feign:
+  client:
+    default:
+      #这里时间一定要调长，否则feign客户端会报ReadTimeOut  服务端报Error parsing HTTP request header
+      connectTimeout: 30000
+      readTimeout: 30000
+      loggerLevel: basic
+
+#开放所有页面节点  默认只开启了health、info两个节点
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+
+mybatis:
+  type-aliases-package: sg.ctx.kyc.register.domain
+  mapper-locations:
+    - classpath*:sg/**/mapper/*.xml
+
+
+logging:
+  file: reg-service.log
+  level:
+    root: INFO
